@@ -1,42 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body{
   font-family: 'Satoshi', sans-serif;
   margin:0px;
+  width:100%;
+  padding:0px;
 }
-.Topmain{
-  display:flex;
-  flex-direction: column;
-  margin-top:21px;
+.loginBg{
+  background-image: url("./images/login/loginBg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
-
-.Topp{
+.loginInput{
+  border-style: solid;
+  border-width: 2px;
+  border-color:white;
+  border-radius: 5px;
+  background-color: rgb(219, 231, 239);
+  width:280px;
+  outline: none;
+}
+.loginInput:focus{
+  border-color: rgb(0, 98, 159);
+}
+.searchBox{
+  width:250px;
+  height:30px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+  border-radius: 15px;
+  padding:10px;
+  box-shadow: inset 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+.searchBox::placeholder{
+  color:rgb(85, 85, 85);
+}
+.fallback-spinner {
+  position: relative;
   display: flex;
-  flex-direction: row;
-  margin:0px;
-  padding:0px;
+  height: 100vh;
+  width: 100%;
 }
-
-.Top{
-  display:flex;
-  flex-direction: row;
-  flex: none;
-  width: 890px;
-  height: 80px;
-  margin:0px;
-  padding:0px;
-  align-items: center;
-  border-radius: 122px;
-  list-style: none;
-  justify-content: space-around;
+.loading {
+  position: absolute;
+  left: calc(50% - 35px);
+  top: 30%;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 3px solid transparent;
+}
+.mainBody{
+  width:100vw;
+}
+.contactBtn{
+  padding: 0px 20px;
+  width:150px;
+  height:50px;
+  border-style:solid;
+  border-width:2px;
+  border-color:#6300B3;
+  border-radius:5px;
   background-color: white;
-  border-style: none;
-  box-shadow: 0 0 20px 0 rgba(127, 127, 127, 0.15);
+  transition: 0.2s;
+  font-weight: 700;
+  font-size:medium;
+  color:#6300B3;
 }
-.logo{
-  height: 44.68px;
-  width: 39.17px;
-  margin: 0px 10px 0px 20px;
+.contactBtn:hover{
+  background-color: #6300B3;
+  color:white;
 }
-
+.contactBtn:active{
+  background-color: white;
+  color: #6300B3;
+}
 .list{
   margin:5px;
   padding:8px 24px 8px 24px;
@@ -53,160 +97,30 @@ body{
   box-shadow: -1px 4px 5px 0px rgb(204, 204, 204, 0.4);
   transform: translate(5px, 5px);
 }
-.list.bt{
-  padding:5px 5px 0px 5px;
-  margin-right:25px;
-}
-.bt:hover {
-  background-color: rgb(239, 239, 239);
-  transform: translate(5px, 3px) scale(1.05);
-}
 
-.button{
-  margin:0px;
-  padding:0px;
-  height: 38px;
-  width: 123px;
-  border-radius: 30px;
-  border-width: 0px;
-  align-items: center;
-  background-image: linear-gradient(rgba(161, 40, 255, 1), rgba(97, 0, 173, 1));;
-  border-style: none;
-  position: relative;
-  overflow: hidden;
+.listClick{
+  margin:5px;
+  padding:8px 24px 8px 24px;
+  color:rgba(48,48,48,1);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 21.6px;
+  text-align: left;
+  border-radius: 10px;
+  transition: all 0.3s ease;
   cursor: pointer;
-  
+  box-shadow: -1px 4px 5px 0px rgb(204, 204, 204, 0.4);
+  transform: translate(5px, 5px);
 }
 
-.button::after{
-  content:"Create Jobs";
-  transition: all 0.3s;
-  color: white;
-  font-weight: bold;
-  left:25px;
-  top:0;
-  position: absolute;
-  line-height: 3;
-}
-.button:hover::after{
-  top:-40px;
-}
-.button::before {
-  content: "Login";
-  transition: all 0.3s;
-  color: white;
-  font-weight: bold;
-  left: 45px;
-  top: 40px;
-  position: absolute;
-}
-.button:hover::before{
-  top:10px;
-}
-
-.buttontext{
-  font-size: 16px;
-  margin:0px;
-  padding:0px;
-  color: white;
-  font-weight: 600;
-}
-
-.Space{
-  flex: 1;
-}
-.middlemain{
-  display:flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  margin:40px 0px 0px 0px;
-  height:80px;
-  width:100%;
-  padding:0px;
-  font-weight: 500;
-  color: rgba(104, 104, 104, 1);
-  border-style: none;
-  box-shadow: 0 5px 15px -10px rgba(155, 155, 155, 0.5);
-}
-.middle{
-  flex:1;
-  margin:2px;
-  height:70px;
-  display:flex;
-  align-items: center;
-  justify-content: left;
-}
-.midfst{
-  margin-left:40px;
-}
-.midtxt{
-  white-space: nowrap;
-}
-.midlst{
-  margin-right:30px;
-}
-.search{
-  height: 18px;
-  width: 18px;
-  margin:0px 20px;
-}
-.location{
-  width: 16px;
-  height: 21.01px;
-  margin: 0px 20px;
-}
-.down{
-  height:24px;
-  width:24px;
-  margin:10px 0px 0px 100px;
-}
-.type{
-  width: 18.07px;
-  height: 16px;
-  margin: 0px 20px;
-}
-.down2 {
-  height: 24px;
-  width: 24px;
-  margin: 10px 0px 0px 180px;
-}
-.line{
-  width:2px;
-  height:48px;
-  margin: 0px 2px 0px 4px;
-}
-.salary{
-  display:flex;
-  flex-direction: row;
-  font-weight: 600;
-  font-size: 16px;
-}
-.month{
-  margin-left:40px;
-  color:rgba(34, 34, 34, 1);
-}
-.value{
-  margin-left:60px;
-}
-.range{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+.seachBoxs{
   justify-content: center;
-  margin: 15px 0px 20px 45px;
 }
-.dot{
-  margin:0px 0px 0px 0px;
+.jobSearch{
+  border:none;
 }
-.dark{
-  width:168.5px;
-  height: 2.5px;
-  margin-left:-4px;
-}
-.light{
-  width:80px;
-  height: 2.5px;
+.scroll-none{
+  scrollbar-width: none;
 }
 .gridmain {
   display: flex;
@@ -216,106 +130,77 @@ body{
   row-gap: 15px;
   column-gap: 15px;
   width: 100%;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  padding: 50px 0px 30px 0px;
-  margin: 0px;
-  background-color: rgba(251, 251, 255, 1);
+  height:65%;
+  grid-template-columns: 1fr 1fr;
+  padding: 20px 0px 20px 0px;
+  background-color: #F7F7F7;
+}
+.gridmain1 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  row-gap: 15px;
+  column-gap: 15px;
+  width: 100%;
+  grid-template-columns: 1fr 1fr;
+  padding: 20px 0px 20px 0px;
+  background-color: #F7F7F7;
 }
 .element{
   width: 316px;
-  height :360px;
+  height :280px;
   border-radius: 12px;
   box-shadow: 0 0 14px 0px rgba(211, 211, 211, 0.15);
-  background-color: white;
+  background-color: rgb(226 232 240);
   position: relative;
 }
-.amazon{
+.element1{
+  width: 316px;
+  height :230px;
+  border-radius: 12px;
+  box-shadow: 0 0 14px 0px rgba(211, 211, 211, 0.15);
+  background-color: rgb(226 232 240);
+  position: relative;
+}
+.comLogo{
   display: flex;
-  margin:16px 0px 0px 16px;
-  width: 83.46px;
-  height: 82px;
+  margin:16px 20px 0px 16px;
+  width: 65px;
+  height: 65px;
   align-items: center;
   justify-content: center;
   border-radius: 13.18px;
   background-image: linear-gradient(to bottom,rgba(254, 254, 253, 1),rgba(241, 241, 241, 1));
   box-shadow: 0 0 10.25px 0 rgba(148, 148, 148, 0.25);
 }
-.amazon img {
-  width: 65.89px;
-  height: 65.89px;
-}
-.role{
-  margin: 19px 0px 0px 16px;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 27px;
-}
-.exp{
-  display: flex;
-  margin-top:22px;
-}
-.exps{
-  margin: 0px 0px 0px 18px;
-  display: flex;
-}
-.exps img{
-  width:19px;
-  height: 16.41px;
-  margin: 3px 0px 0px 0px;
-  padding:0px;
-}
-.exptext{
-  color:rgba(90, 90, 90, 1);
-  margin-left:4px;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 21.6px;
-}
-.discrip{
-  font-size:14px;
-  line-height: 18.9px;
-  font-weight: 500;
-  color:rgba(85, 85, 85, 1);
-}
-.apply{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.applybt{
-  width:284px;
-  height: 46px;
-  border-radius: 10px;
-  border-style: none;
-  background-color: rgba(0, 170, 255, 1);
-  color: rgba(255, 255, 255, 1);
-  font-weight: 600;
-  line-height: 21.6px;
-  box-shadow: 0 0 14px 0 rgba(93, 93, 93, 0.15);
-  border: 1px;
+.comLogo img {
+  width: 60px;
+  height: 60px;
+  border-radius: 45px;
 }
 .ago{
   display: flex;
   align-items: center;
   justify-content: center;
-  width:75px;
   height:33px;
   border-radius: 10px;
   position: absolute;
   font-weight: 500;
   font-size: 14px;
   line-height: 18.9px;
-  color:rgba(0, 0, 0, 1);
-  top:16px;
-  right:16px;
-  background-color: rgba(176, 217, 255, 1);
+  top:5px;
+  right:5px;
+  padding:5px;
+  background-color: #F7F7F7;
 }
+
 .overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  bottom: -350px;
+  height:100%;
   background-color: rgba(63, 63, 63, 0.7);
   z-index: 999;
   display: flex;
@@ -323,144 +208,61 @@ body{
   align-items: center;
 }
 .pop{
-  position:absolute;
-  height:779px;
-  width:840px;
+  position:relative;
+  top:0%;
+  max-height:75%;
+  width:80%;
   background-color: white;
   z-index:1000;
   border-radius: 15px;
-  padding:30px;
+  padding:30px 0px;
+  overflow-y: auto;
+  scrollbar-width: none;
 }
-.pophead {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.popTitle{
+  display:flex;
+  justify-content:center;
   font-size: 25px;
-  font-weight:700;
-  margin-bottom:50px;
-}
-.title{
-  display:flex;
-  flex-direction: row;
-  justify-content: center;
-  column-gap: 20px;
-}
-.textinput{
-  display: flex;
-  flex-direction: column;
-  margin: 10px 0px 10px 0px;
-  height: 91px;
-  width:376px;
-  font-size: 20px;
-  line-height: 27px;
   font-weight: 700;
-  color:rgb(97, 97, 97);
 }
-input::placeholder{
-  font-weight: 500;
-  font-size: 16px;
-  color: rgb(192, 192, 192);
+.popBody{
+  display: flex;
+  flex-direction:column;
+  flex-wrap:wrap;
+  width:80%;
+  margin:2% 10%;
+  padding:0px;
 }
-.textinput input{
-  height:58px;
-  width:356px;
-  border-style: solid;
-  border-radius: 10px;
-  font-size: 17px;
+
+.sectionName{
+  font-size:20px;
   font-weight: 600;
-  padding: 10px;
-  margin:0px;
-  color:rgb(20, 20, 20);
-  border-color: rgb(192, 192, 192);
-  font-family: 'Satoshi', sans-serif;
+  margin:0px 0px 0px 10px;
 }
-.range{
-  display:flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0px;
-}
-.range input{
-  width:163px;
-  height:40px;
-}
-.jobdis{
-  height:202px;
-  width:768px;
-  margin-left: 34px;
-}
-.jobdis textarea{
-  width: 768px;
-  height: 169px;
-  border-radius: 10px;
-  border-style: solid;
-  border-color: rgb(192, 192, 192);
-  border-width: 2px;
-  margin-top:5px;
-  padding: 16px -16px -16px 16px;
-  font-size: 17px;
-  font-weight: 600;
-  font-family: 'Satoshi', sans-serif;
-}
-.jobdis textarea::placeholder{
-  font-family:'Satoshi', sans-serif;
-  font-size: 16px;
-  color: rgb(192, 192, 192);
-  padding: 16px;
-}
-.finalbts{
-  display:flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0px 15px;
-  margin: 50px 20px;
-}
-.draft button{
-  height:59px;
-  width:232px;
-  font-family: 'Satoshi', sans-serif;
-  font-weight: 600;
-  font-size: 20px;
-  border-radius: 10px;
-  background-color: white;
-  border-style: solid;
-  border-color: rgb(69, 69, 69);
-  box-shadow:0 0 3px 0 rgba(122, 122, 122,0.5)
-}
-.draft img{
-  height:10px;
-  width:10px;
-  margin-left: 10px;
-}
-.publish button {
-  height: 59px;
-  width: 207px;
-  font-family: 'Satoshi', sans-serif;
-  font-weight: 600;
-  font-size: 20px;
-  border-radius: 10px;
-  background-color: rgb(53, 207, 238);
-  color:white;
-  border: none;
-}
-.publish img {
-  height: 10px;
-  width: 10px;
-  margin-left:10px;
-}
-.select{
-  height:58px;
-  width:376px;
-  border-radius: 10px;
-  border-width:2px;
+.sectionInput{
+  height:45px;
+  width:100%;
+  margin:0px 0px 20px 0px;
+  padding:10px;
   border-style:solid;
-  margin-top:2px;
-  padding: 10px;
-  font-family: 'Satoshi', sans-serif;
-  font-weight: 500;
-  font-size:16px;
+  border-width:2px;
+  border-color:grey;
+  border-radius:5px;
+}
+.apply{
+  display:flex;
+  justify-content: center;
+}
+.applyBtn{
+  height:40px;
+  background-color: #6300B3;
+  margin:20px;
+  color:white;
+  border-style:none;
+  border-radius:5px;
+  padding:10px 20px;
+  font-weight:bold;
+}
+.clearBtn{
   cursor: pointer;
-  color:grey;
 }

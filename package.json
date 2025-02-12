@@ -1,20 +1,25 @@
 {
+  "homepage": "https://Yashgumma07.github.io/Assignment",
   "name": "package",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-    "homepage": "https://Yashgumma07.github.io/Assignment",
-    "scripts": {
-      "predeploy": "npm run build",
-      "deploy": "gh-pages -d build",
+  "scripts": {
     "dev": "vite",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "build": "vite build",
-    "lint": "eslint .",
-      "preview": "vite preview"
-    },
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
   "dependencies": {
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-countup": "^6.5.3",
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.4.0",
+    "react-router-dom": "^7.0.1",
+    "react-spinners": "^0.14.1",
+    "reactstrap": "^9.2.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
@@ -27,6 +32,7 @@
     "eslint-plugin-react-refresh": "^0.4.9",
     "gh-pages": "^6.1.1",
     "globals": "^15.9.0",
+    "tailwindcss": "^3.4.15",
     "vite": "^5.4.1"
   }
 }
