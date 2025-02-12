@@ -106,8 +106,8 @@ function Jobs({ popup, setPopup, setApplicationId }) {
 
   return (
     <div className="overflow-hidden h-[600px]">
-      <div className="flex mx-[10%] mt-[10px]">
-        <div className="flex-auto"> 
+      <div className="flex md:mx-[10%] mx-[0%] mt-[10px]">
+        <div className={`flex-auto hidden md:block`}> 
           <Filters 
           salaryMin={salaryMin} setSalaryMin={setSalaryMin}
           salaryMax={salaryMax} setSalaryMax={setSalaryMax}
@@ -118,7 +118,7 @@ function Jobs({ popup, setPopup, setApplicationId }) {
           fetchSearchData={fetchSearchData}
           />
         </div>
-        <div className="flex-initial w-[1000px] ml-[50px] p-5 h-[620px]">
+        <div className="flex-initial w-[1000px] md:ml-[50px] ml-[10px] p-5 h-[620px]">
           <div>
             <h2 className="text-3xl font-bold">Search Job</h2>
             <p className="font-medium text-gray-400 my-2">Search for your desired job matching your skills</p>
