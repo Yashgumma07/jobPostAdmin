@@ -2,7 +2,7 @@
 const constants = Object.freeze({
   baseUrl: "https://jobposts-1.onrender.com",
   testUrl: "http://localhost:4000",
-  isTestServer: false,
+  isTestServer: true,
 });
 
 export default constants;

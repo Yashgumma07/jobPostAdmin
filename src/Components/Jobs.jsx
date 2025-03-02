@@ -19,9 +19,11 @@ function Jobs({ popup, setPopup, setApplicationId }) {
   const [salaryMin, setSalaryMin] = useState('');
   const [salaryMax, setSalaryMax] = useState('');
   const [jobType, setJobType] = useState('');
-  const [jobMode, setJobMode] = useState('');
-  const [industryType, setIndustryType] = useState('');
+  const [jobMode, setJobMode] = useState(['All']);
+  const [roleType, setRoleType] = useState('');
   const [experience, setExperience] = useState('');
+
+  const [details, setDetails] = useState(null);
 
   const getTimeDifference = (date) => {
     const createdDate = new Date(date);
@@ -80,7 +82,9 @@ function Jobs({ popup, setPopup, setApplicationId }) {
       salaryMin: salaryMin,
       salaryMax: salaryMax,
       jobType: jobType,
-      jobMode: jobMode,
+      jobMode: jobMode[0] === 'All' ? '' : jobMode,
+      role: roleType === 'Non-IT' ? 'nit' : (roleType === 'IT' ? 'it' : ''),
+      experience: experience,
 
     };
     try {
@@ -113,7 +117,7 @@ function Jobs({ popup, setPopup, setApplicationId }) {
           salaryMax={salaryMax} setSalaryMax={setSalaryMax}
           jobType={jobType} setJobType={setJobType}
           jobMode={jobMode} setJobMode={setJobMode}
-          industryType={industryType} setIndustryType={setIndustryType}
+          roleType={roleType} setRoleType={setRoleType}
           experience={experience} setExperience={setExperience} 
           fetchSearchData={fetchSearchData}
           />
@@ -133,7 +137,7 @@ function Jobs({ popup, setPopup, setApplicationId }) {
           </form>
           {load && <Loader item="clock" />}
           {!load && data?.length > 0 ? (<div className="gridmain relative h-full overflow-y-auto scroll-none">
-            {data.map((element,index)=>(
+            {data.slice().reverse().map((element,index)=>(
               <div key={index} className="element">
                 <div className="mx-3 mt-3 text-2xl font-semibold">{element.jobTitle}</div>
                 <div className="mx-3 flex">
@@ -146,19 +150,37 @@ function Jobs({ popup, setPopup, setApplicationId }) {
                   </div>
                   <div>
                     <div className="mr-2 text-xl font-bold">{element.company}</div>
+                    <div className="text-sm font-medium text-gray-500">
+                      Mode: {element.jobMode}, {element.role === 'nit'?"(Non-IT role)":"(IT role)"}
+                    </div>
                     <div className="leading-tight text-sm font-medium text-gray-500">Location: {element.location}</div>
-                    <div className="text-sm font-medium text-gray-500">Mode: {element.jobMode}</div>
                     <div className="ago text-gray-400">{getTimeDifference(element.createdAt)}</div>
                   </div>
                 </div>
-                <div className="my-5 mx-5 flex">
+                <div className="my-2 mx-5 flex text-sm font-medium text-gray-500">
+                  Min Experience: {element.experience} years
+                </div>
+                <div className="mb-5 mx-5 flex">
                   <img src={applicantsImg} />
                   <div className="mx-2 font-medium">{element.applicants}+ Applicants</div>
                   
                 </div>
                 <div className="flex justify-around">
                   <div>
-                    <button className="py-2 px-5 bg-[#F7F7F7] text-[#6300B3] rounded-md">View Details</button>
+                    <div className="relative inline-block">
+                    <button className="py-2 px-5 bg-[#F7F7F7] text-[#6300B3] rounded-md"
+                      onMouseEnter={() => setDetails(index)}
+                      onMouseLeave={() => setDetails(null)}
+                    >
+                      View Details
+                    </button>
+                      {details === index && (
+                        <div className="z-10 absolute top-full mt-2 bg-white border border-gray-300 
+                        shadow-md rounded-md p-2 transform -translate-x-5">
+                          {element?.description}
+                        </div>
+                      )}
+                    </div>
                   </div>
                   {appliedData.some((job) => job.jobPostId === element._id)
                   ?

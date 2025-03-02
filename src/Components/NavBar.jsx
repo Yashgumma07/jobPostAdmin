@@ -19,6 +19,8 @@ function NavBar() {
   const [applicationId, setApplicationId] = useState();
   const [filter, setFilter] = useState(false);
 
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <div className="overflow-hidden">
       {/* Navbar */}
@@ -74,11 +76,27 @@ function NavBar() {
         </div>
         <div className="md:hidden">
           <button onClick={() => setMenuOpen(true)}>
-            <HiOutlineBars3 className="text-2xl my-3" />
+            <HiOutlineBars3 className="text-3xl my-3 mx-2" />
           </button>
         </div>
         <div className="hidden md:block">
-          <button className="contactBtn">Contact Us</button>
+          <div className="relative inline-block">
+            <button
+              className="mt-4 contactBtn px-4 py-2 mx-3 bg-blue-500 text-white rounded-md"
+              onClick={() => setMenuOpen(false)}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+            >
+              Contact Us
+            </button>
+
+            {isHovered && (
+              <div className="absolute left-1/2 top-full mt-2 w-48 bg-white border border-gray-300 shadow-md rounded-md p-2 transform -translate-x-1/2">
+                <p className="text-sm text-gray-700">📞 +91 98765 43210</p>
+                <p className="text-sm text-gray-700">✉️ yaswanth@admin.com</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -152,9 +170,15 @@ function NavBar() {
           >
             Profile
           </button>
-          <button className="mt-4 contactBtn" onClick={() => setMenuOpen(false)}>
+          <div className="relative inline-block">
+            <button className="mt-4 contactBtn" onClick={() => setMenuOpen(false)}>
             Contact Us
           </button>
+            <div className="absolute left-1/2 top-full mt-2 w-48 bg-white border border-gray-300 shadow-md rounded-md p-2 transform -translate-x-1/2">
+              <p className="text-sm text-gray-700">📞 +91 98765 43210</p>
+              <p className="text-sm text-gray-700">✉️ yaswanth@admin.com</p>
+            </div>
+          </div>
         </div>
       </div>
 

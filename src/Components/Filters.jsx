@@ -9,8 +9,8 @@ function Filters({
   setJobType,
   jobMode,
   setJobMode,
-  industryType,
-  setIndustryType,
+  roleType,
+  setRoleType,
   experience,
   setExperience,
   fetchSearchData,
@@ -18,7 +18,7 @@ function Filters({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(salaryMin, salaryMax, jobType, jobMode, industryType, experience);
+    console.log(salaryMin, salaryMax, jobType, jobMode, roleType, experience);
   };
 
   return (
@@ -32,8 +32,8 @@ function Filters({
               setSalaryMin('');
               setSalaryMax('');
               setJobType('');
-              setJobMode('');
-              setIndustryType('');
+              setJobMode(['All']);
+              setRoleType('');
               setExperience('');
             }}
           >
@@ -89,15 +89,27 @@ function Filters({
               {/* Work Mode */}
               <div className="py-5">
                 <div className="text-lg font-medium">Work Mode</div>
-                {['office', 'remote', 'hybrid'].map((mode) => (
+                {['All', 'office', 'remote', 'hybrid'].map((mode) => (
                   <div key={mode}>
                     <input
                       type="checkbox"
                       id={mode}
                       name="jobMode"
                       value={mode}
-                      checked={jobMode === mode}
-                      onChange={() => setJobMode(mode)}
+                      checked={jobMode.includes(mode)}
+                      onChange={() =>
+                        setJobMode((prev) => {
+                          if (mode === 'All') {
+                            return prev.includes('All') ? [] : ['All']; // If "All" is unchecked, clear selection; else, select "All" only
+                          } else {
+                            const newSelection = prev.includes(mode)
+                              ? prev.filter((m) => m !== mode) // Remove if already selected
+                              : [...prev.filter((m) => m !== 'All'), mode]; // Remove "All" and add new selection
+
+                            return newSelection.length === 3 ? ['All', ...newSelection] : newSelection; // Select "All" if all are selected
+                          }
+                        })
+                      }
                     />
                     <label htmlFor={mode} className="ml-2">
                       {mode}
@@ -107,21 +119,21 @@ function Filters({
               </div>
               <div className="w-full h-[2px] bg-zinc-400"></div>
 
-              {/* Industry Type */}
+              {/* Role Type */}
               <div className="py-5">
-                <div className="text-lg font-medium">Industry Type</div>
-                {['IT', 'Non-IT'].map((industry) => (
-                  <div key={industry}>
+                <div className="text-lg font-medium">Role Type</div>
+                {['IT', 'Non-IT'].map((role) => (
+                  <div key={role}>
                     <input
                       type="radio"
-                      id={industry}
-                      name="industryType"
-                      value={industry}
-                      checked={industryType === industry}
-                      onChange={() => setIndustryType(industry)}
+                      id={role}
+                      name="roleType"
+                      value={role}
+                      checked={roleType === role}
+                      onChange={() => setRoleType(role)}
                     />
-                    <label htmlFor={industry} className="ml-2">
-                      {industry}
+                    <label htmlFor={role} className="ml-2">
+                      {role}
                     </label>
                   </div>
                 ))}
@@ -130,8 +142,18 @@ function Filters({
 
               {/* Experience Level */}
               <div className="py-5">
-                <div className="text-lg font-medium">Experience Level</div>
-                {[
+                <div className="text-lg font-medium">Work Experience</div>
+                <div className="flex justify-between py-4">
+                  <input
+                    type="number"
+                    name="experience"
+                    value={experience}
+                    className="w-[250px] h-[35px] px-2 rounded-lg focus:outline-none"
+                    placeholder="Min Experience (in Years)"
+                    onChange={(e) => setExperience(e.target.value)}
+                  />
+                </div>
+                {/* {[
                   'Fresh/Entry-Level',
                   'Junior',
                   'Mid-Level',
@@ -152,7 +174,7 @@ function Filters({
                       {level}
                     </label>
                   </div>
-                ))}
+                ))} */}
               </div>
 
               {/* Apply Button */}
