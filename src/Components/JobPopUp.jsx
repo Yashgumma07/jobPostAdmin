@@ -2,49 +2,41 @@ import React,{useState, useEffect} from 'react';
 import { apiGet,apiPostPut } from '../api/api_methods';
 import { getId,getEmailId } from '../store/userStore';
 
-function JobPopUp({setPopup,applicationId}) {
-  const [name, setName] = useState('');
-  const [qualification, setQualification] = useState('');
+function JobPopUp({setPopup}) {
+  const [jobTitle, setJobTitle] = useState('');
+  const [company, setCompany] = useState('');
+  const [logo, setLogo] = useState('');
+  const [location, setLocation] = useState('');
+  const [jobType, setJobType] = useState('');
+  const [salaryMin, setSalaryMin] = useState('');
+  const [salaryMax, setSalaryMax] = useState('');
+  const [deadLine, setDeadLine] = useState('');
   const [experience, setExperience] = useState('');
-  const [gender, setGender] = useState('');
-  const [dob, setDob] = useState('');
-  const [email, setEmail] = useState(getEmailId()||'');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-  const [resume, setResume] = useState('');
+  const [jobMode, setJobMode] = useState('');
+  const [role, setRole] = useState('');
+  const [description, setDescription] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
-      userName: name,
-      qualification,
+      jobTitle,
+      company,
+      logo,
+      location,
+      jobType,
+      salaryMin,
+      salaryMax,
+      deadLine,
       experience,
-      gender,
-      dob,
-      email,
-      phone,
-      address,
-      resume,
-      jobPostId: applicationId,
-      userId: getId()
+      jobMode,
+      role,
+      description,
     };
     try {
-      const verificationResp = await apiPostPut(data, '/api/applicant/apply', 'POST');
+      const verificationResp = await apiPostPut(data, '/api/job/job-post', 'POST');
       if (verificationResp.status === 200) {
-        console.log('Data submitted successfully:', verificationResp.body.data);
-        alert('Application submitted successfully');
-        try{
-          const updateApplicants = await apiPostPut({ $inc: { applicants: 1 } },'/api/job/update-job-post/'+applicationId,'PUT');
-          if(updateApplicants.status === 200){
-            console.log('Applicants updated successfully:',updateApplicants.body.data);
-          }
-          else{
-            console.error('Failed to update applicants:',updateApplicants.status);
-          }
-        }
-        catch(error){
-          console.error('Error in updating applicants:',error);
-        }
+        console.log('Job Post Data', verificationResp.body.data);
+        alert('Job post created successfully');
         setPopup(false);
       } else {
         console.error('Failed to submit data:', verificationResp.status, verificationResp.body);
@@ -63,101 +55,132 @@ function JobPopUp({setPopup,applicationId}) {
   return (
     <div className='overlay' onClick={handleClickOutside}>
       <div className='pop'>
-        <div className="popTitle">Job Application</div>
+        <div className="popTitle">Create Job Post</div>
         <form onSubmit={handleSubmit}>
         <div className="popBody">
           <div className="section">
-            <div className="sectionName">Name</div>
+            <div className="sectionName">Job title</div>
             <div>
-              <input className="sectionInput" placeholder="Please enter your name" 
-              value={name} 
-              onChange={(e)=>setName(e.target.value)} />
+              <input className="sectionInput" placeholder="Please enter job title" 
+              value={jobTitle} 
+              required
+              onChange={(e)=>setJobTitle(e.target.value)} />
             </div>
           </div>
           <div className="section">
-            <div className="sectionName">Qualification</div>
+            <div className="sectionName">Company</div>
+            <div>
+              <input className="sectionInput" placeholder="Please enter company name"
+                value={company} 
+                required
+                onChange={(e) => setCompany(e.target.value)} />
+            </div>
+          </div>
+          <div className="section">
+            <div className="sectionName">Logo</div>
+            <div>
+              <input className="sectionInput" placeholder="Please enter company logo url"
+                value={logo}
+                required
+                onChange={(e) => setLogo(e.target.value)} />
+            </div>
+          </div>
+          <div className="section">
+            <div className="sectionName">Location</div>
+            <div>
+              <input className="sectionInput" placeholder="Please enter job location"
+                value={location}
+                required
+                onChange={(e) => setLocation(e.target.value)} />
+            </div>
+          </div>
+          <div className="section">
+            <div className="sectionName">Job Type</div>
             <div>
               <select className="sectionInput" 
-              value={qualification} 
-              onChange={(e)=>setQualification(e.target.value)}>
+              value={jobType} 
+              required
+              onChange={(e)=>setJobType(e.target.value)}>
                 <option value="">select</option>
-                <option value="mtech">Mtech</option>
-                <option value="btech">Btech</option>
-                <option value="Degree">Degree</option>
-                <option value="12th">12th</option>
-                <option value="10th">10th</option>
+                <option value="Part Time">Part Time</option>
+                <option value="Full Time">Full Time</option>
+                <option value="Internship">Internship</option>
               </select>
+            </div>
+          </div>
+          <div className="section">
+            <div className="sectionName">Salary Range</div>
+            <div className="flex">
+              <input className="sectionInput" placeholder="Enter minimum salary"
+                required
+                type='number'
+                value={salaryMin}
+                onChange={(e) => setSalaryMin(e.target.value)} />
+              <input className="sectionInput" placeholder="Enter maximum salary"
+                required
+                type='number'
+                value={salaryMax}
+                onChange={(e) => setSalaryMax(e.target.value)} />
+            </div>
+          </div>
+          <div className="section">
+            <div className="sectionName">Deadline</div>
+            <div>
+              <input className="sectionInput" placeholder="Please enter deadline"
+                required
+                type='date'
+                value={deadLine}
+                onChange={(e) => setDeadLine(e.target.value)} />
             </div>
           </div>
           <div className="section">
             <div className="sectionName">Experience</div>
             <div>
-              <select className="sectionInput"
+              <input className="sectionInput" placeholder="Please enter experience required"
+                required
+                type='number'
                 value={experience}
-                onChange={(e) => setExperience(e.target.value)}>
-                <option value="">select</option>
-                <option value="8+">8+ years</option>
-                <option value="4-8">4-8 years</option>
-                <option value="2-4">2-4 years</option>
-                <option value="1+">1+ years</option>
-                <option value="0-1">Fresher/less than 1 year</option>
-              </select>
+                onChange={(e) => setExperience(e.target.value)} />
             </div>
           </div>
           <div className="section">
-            <div className="sectionName">Gender</div>
+            <div className="sectionName">Job Mode</div>
             <div>
               <select className="sectionInput"
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}>
+                required
+                value={jobMode}
+                onChange={(e) => setJobMode(e.target.value)}>
                 <option value="">select</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
+                <option value="office">Office</option>
+                <option value="remote">Remote</option>
+                <option value="hybrid">Hybrid</option>
               </select>
             </div>
           </div>
           <div className="section">
-            <div className="sectionName">Date of Birth</div>
-              <div>
-                <input type="date" className="sectionInput" 
-                value={dob}
-                onChange={(e) => setDob(e.target.value)} /> 
-              </div>
-          </div>
-          <div className="section">
-            <div className="sectionName">Email</div>
+            <div className="sectionName">Job Role</div>
             <div>
-                <input className="sectionInput" placeholder="Please enter your email" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)} />
+              <select className="sectionInput"
+                required
+                value={role}
+                onChange={(e) => setRole(e.target.value)}>
+                <option value="">select</option>
+                <option value="it">IT</option>
+                <option value="nit">Non-IT</option>
+              </select>
             </div>
           </div>
           <div className="section">
-            <div className="sectionName">Phone Number</div>
+            <div className="sectionName">Description</div>
             <div>
-              <input className="sectionInput" placeholder="Please enter your phone number"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)} />
-            </div>
-          </div>
-          <div className="section">
-            <div className="sectionName">Address</div>
-            <div>
-              <input className="sectionInput" placeholder="Please enter your address"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)} />
-            </div>
-          </div>
-          <div className="section">
-            <div className="sectionName">Resume</div>
-            <div>
-              <input className="sectionInput" placeholder="Please enter your resume link" 
-                value={resume}
-                onChange={(e) => setResume(e.target.value)}/>
+              <textarea className="textInput" placeholder="Please enter the job description"
+              required
+              value={description}
+              onChange={(e) => setDescription(e.target.value)} />
             </div>
           </div>
           <div className="apply">
-            <button type='submit' className="applyBtn">Submit Application</button>
+            <button type='submit' className="applyBtn">Create Post</button>
           </div>
         </div>
         </form>

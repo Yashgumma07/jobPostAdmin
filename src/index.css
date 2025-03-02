@@ -249,6 +249,16 @@ body{
   border-color:grey;
   border-radius:5px;
 }
+.textInput {
+  height: 145px;
+  width: 100%;
+  margin: 0px 0px 20px 0px;
+  padding: 10px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: grey;
+  border-radius: 5px;
+}
 .apply{
   display:flex;
   justify-content: center;

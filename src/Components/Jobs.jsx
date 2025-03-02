@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { apiGet, apiPostPut } from '../api/api_methods';
+import { apiGet, apiPostPut, apiDelete } from '../api/api_methods';
 import Loader from './Loader';
 import Filters from './Filters';
 import companyImg from '../images/company.jpg';
@@ -7,10 +7,11 @@ import applicantsImg from '../images/applicants.png';
 import JobPopUp from './JobPopUp';
 import { getId,setTotalJobs,setTotalAppliedJobs } from '../store/userStore';
 import { FaCircleCheck } from "react-icons/fa6";
+import Applicants from './Applicants';
 
 
 
-function Jobs({ popup, setPopup, setApplicationId }) {
+function Jobs({ popup, setPopup, applicantsPopup, setApplicantsPopup, setJobPostId }) {
   const [data, setData] = useState([]);
   const [load,setLoad] = useState(false);
   const[search,setSearch] = useState('');
@@ -40,21 +41,21 @@ function Jobs({ popup, setPopup, setApplicationId }) {
     return `${diffInDays}Days ago`; // 1 or more days
   };
 
-  const fetchAppliedData = async () => {
-    try{
-      const applyData = await apiGet('/api/applicant/get-all-applied-jobs/'+getId());
-      if(applyData.status === 200){
-        setAppliedData(applyData.body.data);
-        console.log('Applied data:',applyData.body.data);
-        setTotalAppliedJobs(applyData.body.data.length);
-      }else{
-        console.error('Failed to fetch data:',applyData.status);
-      }
-    }
-    catch(error){
-      console.error('Error in fetching applied data:',error);
-    }
-  };
+  // const fetchAppliedData = async () => {
+  //   try{
+  //     const applyData = await apiGet('/api/applicant/get-all-applied-jobs/'+getId());
+  //     if(applyData.status === 200){
+  //       setAppliedData(applyData.body.data);
+  //       console.log('Applied data:',applyData.body.data);
+  //       setTotalAppliedJobs(applyData.body.data.length);
+  //     }else{
+  //       console.error('Failed to fetch data:',applyData.status);
+  //     }
+  //   }
+  //   catch(error){
+  //     console.error('Error in fetching applied data:',error);
+  //   }
+  // };
 
   // const fetchData = async () => {
   //   setLoad(true);
@@ -102,16 +103,32 @@ function Jobs({ popup, setPopup, setApplicationId }) {
       setLoad(false)};
   };
 
+  const handleDelete = async (postId) => {
+    if(!window.confirm('Are you sure you want to delete this job post?')) return;
+    try {
+      const verificationResp = await apiDelete(`/api/job/delete-job-post/${postId}`);
+      if (verificationResp.status === 200) {
+        console.log('Job post deleted successfully:', verificationResp.body.data);
+        setPopup(false);
+        fetchSearchData();
+      } else {
+        console.error('Failed to delete job post:', verificationResp.status, verificationResp.body);
+      }
+    } catch (error) {
+      console.error('Error deleting job post:', error);
+    }
+  };
+
   useEffect(() => {
     //fetchData();
-    fetchAppliedData();
+    //fetchAppliedData();
     fetchSearchData();
   }, []);
 
   return (
-    <div className="overflow-hidden h-[600px]">
+    <div className="overflow-hidden h-[750px] lg:h-[600px]">
       <div className="flex md:mx-[10%] mx-[0%] mt-[10px]">
-        <div className={`flex-auto hidden md:block`}> 
+        {/* <div className={`flex-auto hidden md:block`}> 
           <Filters 
           salaryMin={salaryMin} setSalaryMin={setSalaryMin}
           salaryMax={salaryMax} setSalaryMax={setSalaryMax}
@@ -121,11 +138,11 @@ function Jobs({ popup, setPopup, setApplicationId }) {
           experience={experience} setExperience={setExperience} 
           fetchSearchData={fetchSearchData}
           />
-        </div>
-        <div className="flex-initial w-[1000px] md:ml-[50px] ml-[10px] p-5 h-[620px]">
+        </div> */}
+        <div className="flex-initial w-[1200px] md:ml-[50px] ml-[10px] p-0 lg:h-[700px] h-[900px]">
           <div>
-            <h2 className="text-3xl font-bold">Search Job</h2>
-            <p className="font-medium text-gray-400 my-2">Search for your desired job matching your skills</p>
+            <h2 className="text-3xl font-bold">Created Jobs</h2>
+            {/* <p className="font-medium text-gray-400 my-2">Complete list of jobs</p> */}
           </div>
           <form onSubmit={fetchSearchData} className="flex bg-[#F7F7F7] p-2 rounded-md my-5">
             <input 
@@ -168,34 +185,18 @@ function Jobs({ popup, setPopup, setApplicationId }) {
                 <div className="flex justify-around">
                   <div>
                     <div className="relative inline-block">
-                    <button className="py-2 px-5 bg-[#F7F7F7] text-[#6300B3] rounded-md"
-                      onMouseEnter={() => setDetails(index)}
-                      onMouseLeave={() => setDetails(null)}
-                    >
-                      View Details
-                    </button>
-                      {details === index && (
-                        <div className="z-10 absolute top-full mt-2 bg-white border border-gray-300 
-                        shadow-md rounded-md p-2 transform -translate-x-5">
-                          {element?.description}
-                        </div>
-                      )}
+                      <button
+                        className="py-2 px-3 bg-[#F7F7F7] text-[#6300B3] rounded-md"
+                        onClick={() => { setApplicantsPopup(true), setJobPostId(element._id) }}
+                      >
+                        View Applicants
+                      </button>
                     </div>
                   </div>
-                  {appliedData.some((job) => job.jobPostId === element._id)
-                  ?
-                  <div className="">
-                    <button className="py-2 px-3 w-[120px] bg-[#4ccb39] text-white rounded-md flex items-center justify-center">
-                      <FaCircleCheck className="mr-1" /> Applied !
-                    </button>
-                  </div>
-
-                  :
                   <div>
-                    <button className="py-2 px-5 bg-[#6300B3] text-white rounded-md"
-                      onClick={() => { setPopup(true), setApplicationId(element._id) }}>Apply Now</button>
+                    <button className="py-2 px-5 bg-[#fc8d80] text-white rounded-md"
+                      onClick={() => { handleDelete(element._id) }}>Delete Post</button>
                   </div>
-                  }
                 </div>
               </div>
             ))}
