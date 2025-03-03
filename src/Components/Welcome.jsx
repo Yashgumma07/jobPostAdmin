@@ -1,5 +1,5 @@
 import React from 'react'
-import welcome from '../images/login/welcome.png'
+import welcome from '../images/login/welcomePicture.png'
 import { Link } from 'react-router-dom';
 
 function Welcome() {
